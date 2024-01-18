@@ -28,9 +28,11 @@ class EventsService {
         //     throw new Forbidden("You cannot edit an event that you did not create");
         // }
 
-        event.name = updateData.name || event.name;
-        event.description = updateData.description || event.description;
-        if (typeof updateData.isCanceled !== 'undefined') {
+        // event.name = updateData.name || event.name;
+        // event.description = updateData.description || event.description;
+        event.name = updateData.name;
+        event.description = updateData.description;
+        if (typeof updateData.isCanceled != 'undefined') {
             event.isCanceled = updateData.isCanceled;
         }
         await event.save();
