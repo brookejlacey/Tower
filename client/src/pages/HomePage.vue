@@ -1,4 +1,7 @@
 <template>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create-event-modal">create event <i
+      class="mdi mdi-plus-circle"></i></button>
+  <CreateEventForm />
   <div class="container-fluid">
     <section class="row">
       <!-- TODO this is where events go -->
@@ -32,11 +35,12 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, popScopeId, ref } from 'vue';
 import { AppState } from '../AppState.js';
 import EventCard from '../components/EventCard.vue';
 import { eventsService } from '../services/EventsService.js';
 import Pop from '../utils/Pop.js';
+import { ticketsService } from '../services/TicketsService.js';
 
 export default {
   setup() {
@@ -61,7 +65,16 @@ export default {
 
         }
 
-      })
+      }),
+      accountTickets: computed(() => AppState.accountTickets),
+      async deleteTicket(ticketId) {
+        try {
+          await ticketsService.deleteTicket(ticketId)
+          Pop.success('no mas ticketes')
+        } catch (error) {
+          Pop.error(error)
+        }
+      }
     }
   },
   components: { EventCard }

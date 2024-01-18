@@ -14,6 +14,14 @@ class EventsService {
         console.log('sup', response.data)
         AppState.activeEvent = new Event(response.data)
     }
+
+    async createEvent(eventData) {
+        const response = await api.post('api/events', eventData)
+        console.log('yeppers', response.data)
+        const newEvent = new Event(response.data)
+        AppState.events.push(newEvent)
+        return newEvent
+    }
 }
 
 export const eventsService = new EventsService()

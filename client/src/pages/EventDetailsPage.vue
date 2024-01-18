@@ -1,6 +1,19 @@
 <template>
     <div class="container-fluid">
         <section class="row">
+            <!-- event details go here -->
+            <div class="col-3" v-if="activeEvent">
+                <section class="d-flex">
+                    <img :src="activeEvent.coverImg" alt="cover image of event" class="img-fluid w-100">
+                </section>
+                <div class="h-70 w-70">
+                    <div class="bg-primary rounded">
+                        <h4>{{ activeEvent.name }}</h4>
+                        <!-- <h5></h5> -->
+                    </div>
+
+                </div>
+            </div>
             <div class="col-3 d-flex">
                 <img src="" alt="">
                 <h4>{{ activeEvent }}</h4>
