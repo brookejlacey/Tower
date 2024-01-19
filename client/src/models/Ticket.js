@@ -5,7 +5,7 @@ export class Ticket {
     constructor(data) {
         this.id = data.id
         this.eventId = data.eventId
-        this.accountId = accountId
+        this.accountId = data.accountId
         this.event = data.event ? new Event(data.event) : null
 
         /** @type {Account} */

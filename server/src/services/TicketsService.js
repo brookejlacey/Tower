@@ -24,7 +24,7 @@ class TicketsService {
     }
 
     async deleteTicket(ticketId, userId) {
-        const ticket = (await dbContext.Tickets.findById(ticketId)).populated('event')
+        const ticket = (await dbContext.Tickets.findById(ticketId)).populate('event')
 
         if (!ticket) {
             throw new BadRequest(`Invalid id: ${ticketId}`)
