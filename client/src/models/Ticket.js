@@ -12,6 +12,5 @@ export class Ticket {
         this.profile = data.profile
         this.createdAt = new Date(data.createdAt)
 
-        // this.event = data.event  DO I NEED THIS?
     }
 }
