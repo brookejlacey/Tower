@@ -9,7 +9,7 @@ export class Event {
         this.capacity = data.capacity
         this.startDate = new Date(data.startDate)
         this.isCanceled = data.isCanceled
-        this.type = data.tyoe
+        this.type = data.type
         this.creator = data.creator
         this.ticketCount = data.ticketCount
         this.createdAt = new Date(data.createdAt)

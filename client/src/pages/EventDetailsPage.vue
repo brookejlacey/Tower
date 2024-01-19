@@ -12,6 +12,11 @@
                     <p class="lead">{{ activeEvent.description }}</p>
                     <!-- <span class="badge bg-info">{{ activeEvent.capacity - activeEvent.ticketCount }} spots left</span> -->
                     <button v-if="account.id" class="btn btn-warning mt-3" @click="createTicket()">Grab a Ticket!</button>
+                    <button v-if="activeEvent.creatorId === account.id" class="btn btn-warning mt-3"
+                        @click="cancelEvent()">Cancel Event Sad Face</button>
+
+                    <!-- <button v-if="account.id" class="btn btn-warning mt-3" @click="cancelEvent()">Cancel Event Sad
+                        Face</button> -->
 
                 </div>
             </div>
@@ -70,13 +75,25 @@ export default {
             }
         }
 
+        async function cancelEvent() {
+            try {
+                // Assuming the event ID is in route.params.eventId
+                await eventsService.cancelEvent(route.params.eventId);
+                Pop.success('Event successfully cancelled');
+                router.push({ name: 'Home' }); // Redirect to home or another appropriate page
+            } catch (error) {
+                console.error(error);
+                Pop.error(error.message || 'Failed to cancel event');
+            }
+        }
 
         return {
             activeEvent: computed(() => AppState.activeEvent),
             account: computed(() => AppState.account),
             tickets: computed(() => AppState.tickets),
             isTicketHolder: computed(() => AppState.tickets.some(ticket => ticket.accountId === AppState.account.id)),
-            createTicket, // Make sure createTicket is included in the return statement
+            createTicket,
+            cancelEvent,
         };
     }
 }

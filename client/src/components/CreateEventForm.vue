@@ -20,14 +20,25 @@
                             <input v-model="eventData.coverImg" class="form-control" type="url" name="event-cover-image"
                                 id="create-event-cover-image" maxlength="500">
                         </div>
+
                         <div class="mb-3 col-6">
-                            <label for="event-name">Category</label>
-                            <select v-model="eventData.category" class="form-control" name="event-name"
-                                id="create-event-name">
-                                <option selected disabled value="">select a category</option>
-                                <option v-for="option in categoryOptions" :value="option">{{ option }}</option>
+                            <label for="event-name">Type</label>
+                            <select v-model="eventData.type" class="form-control" name="event-name" id="create-event-name">
+                                <option selected disabled value="">select a type</option>
+                                <option v-for="option in typeOptions" :value="option">{{ option }}</option>
                             </select>
                         </div>
+                        <!-- <div class="mb-3 col-6">
+                            <label for="event-type">Type</label>
+                            <select v-model="eventData.type" class="form-control" name="event-type" id="event-type">
+                                <option value="digital">Digital</option>
+                                <option value="concerts">Concerts</option>
+                                <option value="sports">Sports</option>
+                                <option value="conventions">Conventions</option>
+                            </select>
+                        </div> -->
+
+
                         <div class="mb-3 col-6">
                             <label for="event-location">Location</label>
                             <input v-model="eventData.location" class="form-control" type="text" name="event-location"
@@ -48,15 +59,9 @@
                             <input v-model="eventData.capacity" class="form-control" type="number" name="event-capacity"
                                 id="event-capacity">
                         </div>
-                        <div class="mb-3 col-6">
-                            <label for="event-type">Type</label>
-                            <select v-model="eventData.type" class="form-control" name="event-type" id="event-type">
-                                <option value="digital">Digital</option>
-                                <option value="concerts">Concerts</option>
-                                <option value="sports">Sports</option>
-                                <option value="conventions">Conventions</option>
-                            </select>
-                        </div>
+
+
+
                         <div class="mb-3 col-6">
                             <label for="event-is-canceled">Is Canceled?</label>
                             <input v-model="eventData.isCanceled" type="checkbox" name="event-is-canceled"
@@ -88,7 +93,6 @@ export default {
         const eventData = ref({
             name: '',
             coverImg: '',
-            category: '',
             location: '',
             startDate: '',
             description: '',
@@ -99,7 +103,7 @@ export default {
         const router = useRouter()
         return {
             eventData,
-            categoryOptions: ['digital', 'convention', 'sport', 'concert'],
+            typeOptions: ['digital', 'convention', 'sport', 'concert'],
             async createEvent() {
                 try {
                     const event = await eventsService.createEvent(eventData.value)

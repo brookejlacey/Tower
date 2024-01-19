@@ -9,7 +9,7 @@ export class EventsController extends BaseController {
             .get('', this.getAllEvents)
             .get('/:eventId', this.getEventById)
             .put('/:eventId', this.editEvent)
-            .put('/:eventId/cancel', this.cancelEvent)
+            // .put('/:eventId/cancel', this.cancelEvent)
 
             .use(Auth0Provider.getAuthorizedUserInfo)
 
