@@ -10,7 +10,7 @@ class TicketsService {
         logger.log('made ticket', response.data)
         const newTicket = new Ticket(response.data)
         AppState.tickets.push(newTicket)
-        // AppState.accountTickets.push(newTicket)
+        AppState.accountTickets.push(newTicket)
     }
 
     async deleteTicket(ticketId) {
@@ -22,16 +22,26 @@ class TicketsService {
         }
         const indexInAccountTickets = AppState.accountTickets.findIndex(ticket => ticket.id === ticketId);
         if (indexInAccountTickets > -1) {
-            AppState.accountTickets.splice(indexInAccountTickets, 1);
+            AppState.accountTickets.splice(indexInAccountTickets, 1)
         }
     }
 
-    // async getEventTickets(eventId) {
-    //     const response = await api.get(`api/events/${eventId}/tickets`)
-    //     logger.log('handshake event tickets', response.data)
-    //     let tickets = response.data.map(ticket => new Ticket(ticket))
-    //     AppState.tickets = tickets
-    // }
+    async getMyEventTickets() {
+        try {
+            const response = await api.get('account/tickets')
+            logger.log('My tickets', response.data)
+            let tickets = response.data.map(ticket => new Ticket(ticket))
+            AppState.accountTickets = tickets
+        } catch (error) {
+            logger.error(error);
+        }
+    }
+    async getEventTickets(eventId) {
+        const response = await api.get(`api/events/${eventId}/tickets`)
+        logger.log('handshake event tickets', response.data)
+        let tickets = response.data.map(ticket => new Ticket(ticket))
+        AppState.tickets = tickets
+    }
 }
 
 export const ticketsService = new TicketsService()

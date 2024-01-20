@@ -3,24 +3,37 @@
     <h1>Welcome {{ account.name }}</h1>
     <img class="rounded" :src="account.picture" alt="" />
     <p>{{ account.email }}</p>
-  </div>
-  <div v-for="ticket in tickets" :key="ticket.id" class="my-tickets">
-    <TicketCard :ticket="ticket" />
+    <div v-for="ticket in tickets" :key="ticket.id" class="my-tickets">
+      <TicketCard :ticket="ticket" />
+    </div>
   </div>
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { AppState } from '../AppState';
 import TicketCard from '../components/TicketCard.vue';
+import { ticketsService } from '../services/TicketsService.js';
 
 export default {
   components: {
     TicketCard,
   },
   setup() {
-    const tickets = computed(() => AppState.tickets);
+    onMounted(async () => {
+      await ticketsService.getMyEventTickets();
+    });
 
+    const tickets = computed(() => AppState.accountTickets);
+
+    // TODO go and Get my Tickets (events I have tickets for)
+    async function getMyEventTickets() {
+      try {
+        await ticketsService.getMyEventTickets(route.params.eventId);
+      } catch (error) {
+        Pop.error(error);
+      }
+    }
     return {
       account: computed(() => AppState.account),
       tickets
@@ -38,35 +51,3 @@ img {
 
 
 
-
-
-<!-- <template>
-  <div class="about text-center">
-    <h1>Welcome {{ account.name }}</h1>
-    <img class="rounded" :src="account.picture" alt="" />
-    <p>{{ account.email }}</p>
-  </div>
-  <div v-for="ticket in tickets" :key="ticket.id" class="my-tickets">
-      <TicketCard :ticket="ticket" />
-    </div>
-</template>
-
-<script>
-import { computed } from 'vue';
-import { AppState } from '../AppState';
-import TicketCard from './TicketCard.vue';
-
-export default {
-  setup() {
-    return {
-      account: computed(() => AppState.account)
-    }
-  }
-}
-</script>
-
-<style scoped>
-img {
-  max-width: 100px;
-}
-</style> -->

@@ -7,7 +7,7 @@ class EventsService {
         return events
     }
     async getEventById(eventId) {
-        const event = await dbContext.Events.findById(eventId).populate('creator', 'name coverImg')
+        const event = await dbContext.Events.findById(eventId).populate('creator', 'name coverImg').populate('ticketCount')
 
         if (!event) {
             throw new BadRequest(`Invalid id: ${eventId}`)
@@ -15,31 +15,10 @@ class EventsService {
         return event
     }
     async createEvent(eventData) {
-        const event = await dbContext.Events.create(eventData)
+        // populate ticketCount PRETTY SURE I DID
+        const event = (await dbContext.Events.create(eventData)).populate('ticketCount')
         return event
     }
-    async editEvent(eventId, userId, updateData) {
-        const event = await dbContext.Events.findById(eventId);
-
-        // if (!event) {
-        //     throw new BadRequest(`Invalid id: ${eventId}`);
-        // }
-        // if (event.creatorId.toString() !== userId) {
-        //     throw new Forbidden("You cannot edit an event that you did not create");
-        // }
-
-        // event.name = updateData.name || event.name;
-        // event.description = updateData.description || event.description;
-        event.name = updateData.name;
-        event.description = updateData.description;
-        if (typeof updateData.isCanceled != 'undefined') {
-            event.isCanceled = updateData.isCanceled;
-        }
-        await event.save();
-        await event.populate('creator', 'name picture');
-        return event;
-    }
-
     async cancelEvent(eventId, userId) {
         const eventToCancel = await this.getEventById(eventId)
 
@@ -53,6 +32,30 @@ class EventsService {
 
         return eventToCancel
     }
+
+
+    // async editEvent(eventId, userId, updateData) {
+    //     const event = await dbContext.Events.findById(eventId);
+
+    // if (!event) {
+    //     throw new BadRequest(`Invalid id: ${eventId}`);
+    // }
+    // if (event.creatorId.toString() !== userId) {
+    //     throw new Forbidden("You cannot edit an event that you did not create");
+    // }
+
+    // event.name = updateData.name || event.name;
+    // event.description = updateData.description || event.description;
+    //     event.name = updateData.name;
+    //     event.description = updateData.description;
+    //     if (typeof updateData.isCanceled != 'undefined') {
+    //         event.isCanceled = updateData.isCanceled;
+    //     }
+    //     await event.save();
+    //     await event.populate('creator', 'name picture');
+    //     return event;
+    // }
+
 }
 
 

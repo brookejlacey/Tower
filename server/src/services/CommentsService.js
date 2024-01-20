@@ -1,6 +1,6 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest } from "../utils/Errors.js"
-import { EventsService } from "./EventsService.js"
+import { eventsService } from "../services/EventsService.js"
 
 class CommentsService {
     async getCommentsInEvent(eventId) {
@@ -11,12 +11,12 @@ class CommentsService {
         return comments
     }
     async createComment(commentData) {
-        const event = await EventsService.getEventById(commentData.eventId)
+        const event = await eventsService.getEventById(commentData.eventId)
 
-        // REVIEW make sure the ablum is not archived before running code below if statement
-        // if(ablum.archived == true)
-        if (event.canceled) {
-            throw new BadRequest(`${event.name} has been archived, you can not post additional comments to it`)
+        // make sure the ablum is not archived before running code below if statement
+        // if(ablum.archived == true) PRETTY SURE I GOT THIS
+        if (event.isCanceled) {
+            throw new BadRequest(`${event.name} has been cancelled, you can not post additional comments to it`)
         }
 
         const comment = await dbContext.Comments.create(commentData)

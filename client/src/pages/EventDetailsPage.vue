@@ -1,16 +1,21 @@
 
 
 <template>
-    <div class="container-fluid p-0">
+    <div class="container-fluid">
         <div class="row no-gutters position-relative" v-if="activeEvent">
-            <img :src="activeEvent.coverImg" alt="Event banner" class="img-fluid">
+            <div class="col-12">
+
+                <img :src="activeEvent.coverImg" alt="Event banner" class="img-fluid">
+            </div>
             <div class="col-md-6 position-absolute event-info">
                 <div class="text-white bg-dark bg-opacity-50 p-3">
                     <h2 class="display-4">{{ activeEvent.name }}</h2>
+                    <!-- IF event is canceled, show an element here that tells us that -->
                     <h5 class="mt-0">{{ activeEvent.location }}</h5>
                     <p>{{ activeEvent.startDate.toDateString() }}</p>
                     <p class="lead">{{ activeEvent.description }}</p>
                     <!-- <span class="badge bg-info">{{ activeEvent.capacity - activeEvent.ticketCount }} spots left</span> -->
+                    <!-- FIXME don't show this button, or disable it if the event is sold out OR is canceled -->
                     <button v-if="account.id" class="btn btn-warning mt-3" @click="createTicket()">Grab a Ticket!</button>
                     <button v-if="activeEvent.creatorId === account.id" class="btn btn-warning mt-3"
                         @click="cancelEvent()">Cancel Event Sad Face</button>
@@ -22,6 +27,9 @@
             </div>
         </div>
     </div>
+    <!-- TODO show ticket holders, reference collaborators on albumDetailsPage in postit -->
+
+    <!-- TODO create form for creating comment, reference createPicture to grab eventId -->
 </template>
 
 
@@ -42,6 +50,8 @@ export default {
             getEventById();
             // getEventTickets(); // Uncomment this if needed
         });
+        // TODO get event tickets
+        // TODO get event comments
 
         async function getEventById() {
             try {
@@ -91,6 +101,9 @@ export default {
             activeEvent: computed(() => AppState.activeEvent),
             account: computed(() => AppState.account),
             tickets: computed(() => AppState.tickets),
+            // TODO write computed to determine if event is sold out, use that computed to display someHTML in your above template
+
+            // TODO use this computed to show something in the template that the user is attending event
             isTicketHolder: computed(() => AppState.tickets.some(ticket => ticket.accountId === AppState.account.id)),
             createTicket,
             cancelEvent,

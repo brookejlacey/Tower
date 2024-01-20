@@ -3,7 +3,8 @@
       class="mdi mdi-plus-circle"></i></button>
   <CreateEventForm />
 
-  <!-- SECTION filter bar -->
+  <!-- FIXME where are my containers?? -->
+
   <section class="row bg-info p-3 my-2 gap-2">
 
     <button class="col btn btn-outline-light" :class="{ 'bg-primary': filterBy == '' }"
@@ -55,7 +56,7 @@ export default {
       filterBy,
       events: computed(() => {
         if (filterBy.value) {
-          return AppState.events.filter(e => e.category == filterBy.value)
+          return AppState.events.filter(e => e.type == filterBy.value)
         } else {
           return AppState.events
 

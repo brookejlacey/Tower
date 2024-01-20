@@ -11,8 +11,9 @@ class TicketsService {
         })
         return eventTickets
     }
-    async getTicketsForEvents(eventId) {
+    async getTicketsForEvent(eventId) {
         const tickets = await dbContext.Tickets.find({ eventId: eventId }).populate('profile', 'name picture')
+        // FIXME what is wrong here????
         return tickets
     }
 
@@ -24,7 +25,7 @@ class TicketsService {
     }
 
     async deleteTicket(ticketId, userId) {
-        const ticket = (await dbContext.Tickets.findById(ticketId)).populate('event')
+        const ticket = await dbContext.Tickets.findById(ticketId).populate('event')
 
         if (!ticket) {
             throw new BadRequest(`Invalid id: ${ticketId}`)
