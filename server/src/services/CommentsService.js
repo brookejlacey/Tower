@@ -20,19 +20,21 @@ class CommentsService {
     }
 
     async deleteComment(commentId, userId) {
-        const comment = await dbContext.Comments.findById(commentId).populate('eventId')
+        const comment = await dbContext.Comments.findById(commentId)
+        // .populate('eventId')
 
         if (!comment) {
             throw new BadRequest(`Invalid id: ${commentId}`)
         }
 
-        // if (comment.creatorId != userId) {
-        //     throw new Forbidden("woopise it's wrong")
-        // }
+        if (comment.creatorId != userId) {
+            throw new Forbidden("woopise that aint you")
+        }
 
-        await comment.deleteOne()
+        await dbContext.Comments.findByIdAndDelete(commentId);
+        return `Comment deleted successfully`
 
-
+        // await comment.deleteOne()
         // return `No longer a comment on ${comment.event.name}`
     }
 }

@@ -37,7 +37,7 @@
 
 
     <div v-if="tickets.length">
-        <h3>TicketHolders</h3>
+        <h3 class="m-3">TicketHolders</h3>
         <div class="container-fluid">
             <div class="row">
 
