@@ -15,8 +15,9 @@ class EventsService {
         return event
     }
     async createEvent(eventData) {
-        // populate ticketCount PRETTY SURE I DID
-        const event = (await dbContext.Events.create(eventData)).populate('ticketCount')
+        const event = await dbContext.Events.create(eventData)
+        await event.populate('creator', 'name coverImg')
+        await event.populate('ticketCount')
         return event
     }
     async cancelEvent(eventId, userId) {

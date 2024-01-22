@@ -1,15 +1,14 @@
 <template>
     <router-link :to="{ path: `/eventDetails/${event.id}` }">
         <div class="event-card card mb-3 bg-primary selectable">
-            {{ event.name }}
             <img :src="event.coverImg" class="img-fluid" :alt="`cover image for ${event.name}`" />
 
             <div class="bg-primary">
                 <h5 class="text-center">{{ event.name }}</h5>
 
-                <!-- <div class="text-center"> -->
-                <!-- <b>{{ event.ticketCount }} <i class="mdi mdi-heart"></i></b> -->
-                <!-- </div> -->
+                <div class="text-center">
+                    <b>{{ event.ticketCount }}</b>
+                </div>
 
             </div>
 

@@ -28,16 +28,6 @@
                                 <option v-for="option in typeOptions" :value="option">{{ option }}</option>
                             </select>
                         </div>
-                        <!-- <div class="mb-3 col-6">
-                            <label for="event-type">Type</label>
-                            <select v-model="eventData.type" class="form-control" name="event-type" id="event-type">
-                                <option value="digital">Digital</option>
-                                <option value="concerts">Concerts</option>
-                                <option value="sports">Sports</option>
-                                <option value="conventions">Conventions</option>
-                            </select>
-                        </div> -->
-
 
                         <div class="mb-3 col-6">
                             <label for="event-location">Location</label>
@@ -60,13 +50,6 @@
                                 id="event-capacity">
                         </div>
 
-
-
-                        <div class="mb-3 col-6">
-                            <label for="event-is-canceled">Is Canceled?</label>
-                            <input v-model="eventData.isCanceled" type="checkbox" name="event-is-canceled"
-                                id="event-is-canceled">
-                        </div>
                         <div class="mb-3 col-6 d-flex align-items-end justify-content-end">
                             <button class="btn btn-primary">Create <i class="mdi mdi-plus"></i></button>
                         </div>

@@ -8,8 +8,6 @@ export class TicketsController extends BaseController {
         this.router
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.createTicket)
-            .get('/:eventId', this.getEventById)
-            .get(':eventId/tickets', this.getTicketsForEvent)
             .delete('/:ticketId', this.deleteTicket)
     }
 

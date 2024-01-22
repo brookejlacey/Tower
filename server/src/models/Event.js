@@ -30,6 +30,5 @@ EventSchema.virtual('ticketCount', {
     localField: '_id',
     foreignField: 'eventId',
     ref: 'Ticket',
-    // NOTE don't return the data, just count how many matches there are
     count: true
 })

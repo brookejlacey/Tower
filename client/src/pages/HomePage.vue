@@ -38,6 +38,7 @@ import EventCard from '../components/EventCard.vue';
 import { eventsService } from '../services/EventsService.js';
 import Pop from '../utils/Pop.js';
 import { ticketsService } from '../services/TicketsService.js';
+import CreateEventForm from '../components/CreateEventForm.vue';
 
 export default {
   setup() {
@@ -74,7 +75,7 @@ export default {
       }
     }
   },
-  components: { EventCard }
+  components: { EventCard, CreateEventForm }
 }
 </script>
 

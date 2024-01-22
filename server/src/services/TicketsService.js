@@ -1,5 +1,6 @@
 import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js";
+import { eventsService } from "./EventsService.js";
 
 class TicketsService {
     async getMyEventTickets(userId) {
@@ -13,19 +14,29 @@ class TicketsService {
     }
     async getTicketsForEvent(eventId) {
         const tickets = await dbContext.Tickets.find({ eventId: eventId }).populate('profile', 'name picture')
-        // FIXME what is wrong here????
         return tickets
     }
 
     async createTicket(ticketData) {
+        const event = await (await eventsService.getEventById(ticketData.eventId)).populate('creator', 'name picture')
+
+        if (event.isCanceled) {
+            throw new BadRequest(`${event.name} has been cancelled, you can not get a ticket`)
+        }
+
+        // if (event.capacity == 0) {
+        //     throw new BadRequest(`${event.name} is at capacity, you can not get a ticket`)
+        // }
+
         const ticket = await dbContext.Tickets.create(ticketData)
         await ticket.populate('profile', 'name picture')
         await ticket.populate('event')
+        // await ticket.populate('ticketCount')
         return ticket
     }
 
     async deleteTicket(ticketId, userId) {
-        const ticket = await dbContext.Tickets.findById(ticketId).populate('event')
+        const ticket = await (await dbContext.Tickets.findById(ticketId).populate('event'))
 
         if (!ticket) {
             throw new BadRequest(`Invalid id: ${ticketId}`)
