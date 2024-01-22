@@ -35,27 +35,28 @@ class EventsService {
     }
 
 
-    // async editEvent(eventId, userId, updateData) {
-    //     const event = await dbContext.Events.findById(eventId);
+    async editEvent(eventId, userId, updateData) {
+        const event = await dbContext.Events.findById(eventId);
 
-    // if (!event) {
-    //     throw new BadRequest(`Invalid id: ${eventId}`);
-    // }
-    // if (event.creatorId.toString() !== userId) {
-    //     throw new Forbidden("You cannot edit an event that you did not create");
-    // }
+        if (!event) {
+            throw new BadRequest(`Invalid id: ${eventId}`);
+        }
+        if (event.creatorId != userId) {
+            throw new Forbidden("You cannot edit an event that you did not create");
+        }
+        event.name = updateData.name || event.name
+        event.description = updateData.description || event.description
+        event.coverImg = updateData.coverImg || event.coverImg
+        event.location = updateData.location || event.location
+        event.capacity = updateData.capacity || event.capacity
+        event.startDate = updateData.startDate || event.startDate
+        event.type = updateData.type || event.type
 
-    // event.name = updateData.name || event.name;
-    // event.description = updateData.description || event.description;
-    //     event.name = updateData.name;
-    //     event.description = updateData.description;
-    //     if (typeof updateData.isCanceled != 'undefined') {
-    //         event.isCanceled = updateData.isCanceled;
-    //     }
-    //     await event.save();
-    //     await event.populate('creator', 'name picture');
-    //     return event;
-    // }
+
+        await event.save();
+        await event.populate('creator', 'name picture');
+        return event;
+    }
 
 }
 

@@ -16,7 +16,7 @@ export class EventsController extends BaseController {
             .use(Auth0Provider.getAuthorizedUserInfo)
 
             .post('', this.createEvent)
-            // .put('/:eventId', this.editEvent)
+            .put('/:eventId', this.editEvent)
             .delete('/:eventId', this.cancelEvent)
     }
     async getAllEvents(request, response, next) {
@@ -69,19 +69,17 @@ export class EventsController extends BaseController {
             next(error)
         }
     }
-    // async editEvent(request, response, next) {
-    //     try {
-    //         const userId = request.userInfo.id;
-    //         // console.log('userId', )
-    //         const eventId = request.params.eventId;
-    //         const updateData = request.body;
-    //         // FIXME we can only pull the userInfo from a request if this request is BELOW our middleware(.use)
-    //         const event = await eventsService.editEvent(eventId, userId, updateData);
-    //         response.send(event);
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
+    async editEvent(request, response, next) {
+        try {
+            const userId = request.userInfo.id;
+            const eventId = request.params.eventId;
+            const updateData = request.body;
+            const event = await eventsService.editEvent(eventId, userId, updateData);
+            response.send(event);
+        } catch (error) {
+            next(error);
+        }
+    }
 
     async cancelEvent(request, response, next) {
         try {

@@ -35,20 +35,26 @@
         </div>
     </div>
 
-    <div v-if="tickets.length" class="ticket-holders">
+
+    <div v-if="tickets.length">
         <h3>TicketHolders</h3>
-        <div class="profile-container">
-            <div v-for="ticket in tickets" :key="ticket.id" class="profile">
-                <img :src="ticket.profile.picture" class="profile-picture" :alt="ticket.profile.name">
-                <span>{{ ticket.profile.name }}</span>
+        <div class="container-fluid">
+            <div class="row">
+
+                <div v-for="ticket in tickets" :key="ticket.id" class="col-1 mb-2">
+                    <div class="profile text-center">
+                        <img :src="ticket.profile.picture" class="profile-picture img-fluid rounded-circle"
+                            :alt="ticket.profile.name">
+                        <!-- <span>{{ ticket.profile.name }}</span> -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="container-fluid mt-5">
         <div v-if="account.id" class="mt-3">
-            <CreateCommentForm />
-            <!--  :eventId="activeEvent.id" @commentAdded="getComments" -->
+            <CreateCommentForm :eventId="activeEvent.id" @commentAdded="getComments" />
         </div>
 
         <div class="comments-list mt-3">

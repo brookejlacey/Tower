@@ -26,7 +26,7 @@ class CommentsService {
             throw new BadRequest(`Invalid id: ${commentId}`)
         }
 
-        // if (comment.accountId != userId) {
+        // if (comment.creatorId != userId) {
         //     throw new Forbidden("woopise it's wrong")
         // }
 
