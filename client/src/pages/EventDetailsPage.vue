@@ -11,43 +11,44 @@
                 <div class="text-white bg-dark bg-opacity-50 p-3">
                     <h2 class="display-4">{{ activeEvent.name }}</h2>
                     <h5 v-if="activeEvent.isCanceled" class="text-danger">Event Cancelled</h5>
+                    <h5 v-if="isSoldOut" class="text-danger">Event Sold Out</h5>
 
                     <h5 class="mt-0">{{ activeEvent.location }}</h5>
                     <p>{{ activeEvent.startDate.toDateString() }}</p>
                     <p class="lead">{{ activeEvent.description }}</p>
 
 
-                    <span class="badge bg-info">{{ activeEvent.capacity - activeEvent.ticketCount }} spots left</span>
+                    <span v-if="!activeEvent.isCanceled" class="badge bg-info">{{ activeEvent.capacity -
+                        activeEvent.ticketCount }} spots left</span>
 
-                    <h5 v-if="isAttending" class="text-success">You are attending this event!</h5>
+                    <h5 v-if="isAttending && !activeEvent.isCanceled" class="text-success">You are attending this event!
+                    </h5>
 
-                    <!-- FIXME don't show this button, or disable it if the event is sold out OR is canceled -->
-                    <button v-if="account.id" :disabled="isSoldOut" class="btn btn-warning mt-3"
+                    <button v-if="account.id && !isSoldOut && !activeEvent.isCanceled" class="btn btn-warning mt-3"
                         @click="createTicket()">Grab a Ticket!</button>
 
-                    <!-- <button v-if="account.id" class="btn btn-warning mt-3" @click="createTicket()">Grab a Ticket!</button> -->
-
-                    <button v-if="activeEvent.creatorId === account.id" class="btn btn-warning mt-3"
-                        @click="cancelEvent()">Cancel Event Sad Face</button>
+                    <button v-if="activeEvent.creatorId === account.id && !activeEvent.isCanceled"
+                        class="btn btn-warning mt-3" @click="cancelEvent()">Cancel Event Sad Face</button>
 
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- <div v-if="ticketHolders.length" class="ticket-holders">
-        <h3>Ticket Holders</h3>
+    <div v-if="tickets.length" class="ticket-holders">
+        <h3>TicketHolders</h3>
         <div class="profile-container">
-            <div v-for="ticket in ticketHolders" :key="ticket.id" class="profile">
-                <img :src="ticket.profile.picture" class="profile-picture" :alt="ticket.profile.name" />
+            <div v-for="ticket in tickets" :key="ticket.id" class="profile">
+                <img :src="ticket.profile.picture" class="profile-picture" :alt="ticket.profile.name">
                 <span>{{ ticket.profile.name }}</span>
             </div>
         </div>
-    </div> -->
+    </div>
 
     <div class="container-fluid mt-5">
         <div v-if="account.id" class="mt-3">
-            <CreateCommentForm :eventId="activeEvent.id" @commentAdded="getComments" />
+            <CreateCommentForm />
+            <!--  :eventId="activeEvent.id" @commentAdded="getComments" -->
         </div>
 
         <div class="comments-list mt-3">
@@ -96,7 +97,7 @@ export default {
                 const ticketData = { eventId: route.params.eventId }
                 const response = await ticketsService.createTicket(ticketData)
                 Pop.success('Ticket successfully grabbed')
-                router.push({ name: 'Account' });
+                // router.push({ name: 'Account' });
             } catch (error) {
                 Pop.error(error)
             }
