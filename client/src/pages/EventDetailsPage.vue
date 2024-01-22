@@ -45,7 +45,7 @@
                     <div class="profile text-center">
                         <img :src="ticket.profile.picture" class="profile-picture img-fluid rounded-circle"
                             :alt="ticket.profile.name">
-                        <!-- <span>{{ ticket.profile.name }}</span> -->
+                        <span>{{ ticket.profile.name }}</span>
                     </div>
                 </div>
             </div>
